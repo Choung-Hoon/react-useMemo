@@ -1,13 +1,13 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 
 const hardCalculate = (number) => {
   console.log("어려운 계산");
   for (let i = 0; i < 999999999; i++) {} // 생각하는 시간, 부하주는 코드
-  return number + 10000;
+  return 10000 + Number(number);
 };
 const easyCalculate = (number) => {
   console.log("쉬운 계산");
-  return number + 1;
+  return 1 + Number(number);
 };
 
 function App() {
@@ -16,7 +16,11 @@ function App() {
 
   // 렌더링 마다 아래 함수가 실행되어 부하 발생
   // 쉬운 계산기 값만 바꿔도 어려운 계산기 함수가 동작한다.
-  const hardSum = hardCalculate(hardNumber);
+  //const hardSum = hardCalculate(hardNumber);
+  const hardSum = useMemo(() => {
+    return hardCalculate(hardNumber);
+  }, [hardNumber]); // hardNumber가 바뀔때만 실행, 그 이외에는 이전에 실행했던 값을 할당
+
   const easySum = easyCalculate(easyNumber);
 
   return (
